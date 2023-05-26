@@ -21,8 +21,8 @@ export default function HomePage() {
         // const hasImage = post.image !== undefined;
         const hasButton = post.button !== '';
         const colors = [
-            {background:'#F2F9FF', button:'#76D423'},
-            {background:'#76D423', button:'#FCF20C'},
+            {background:'#F2F9FF', button:'#75ac45'},
+            {background:'#75ac45', button:'#FCF20C'},
         ];
 
 

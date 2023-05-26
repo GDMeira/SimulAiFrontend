@@ -50,7 +50,7 @@ const ContainerSC = styled.div`
     font-size: 30px;
     position: relative;
     z-index: 1;
-    background-color: #FCF20C;
+    background-color: #e0d83a;
 
     div {
         display: flex;
