@@ -46,6 +46,7 @@ const ContainerSC = styled.div`
         justify-content: space-around;
         align-items: center;
         color: #547c31;
+        font-weight: 700;
     }
 `;
 

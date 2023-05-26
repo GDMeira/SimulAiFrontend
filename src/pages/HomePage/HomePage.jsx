@@ -5,7 +5,7 @@ import desempenho from './images/desempenho.png'
 import { useNavigate } from "react-router-dom"
 
 
-export default function HomePage() {
+export default function HomePage({colors}) {
     const navigate = useNavigate();
 
     const posts = [
@@ -20,16 +20,16 @@ export default function HomePage() {
         const hasText = post.text !== '';
         // const hasImage = post.image !== undefined;
         const hasButton = post.button !== '';
-        const colors = [
-            {background:'#F2F9FF', button:'#75ac45'},
-            {background:'#75ac45', button:'#FCF20C'},
+        const bgColors = [
+            {background:colors.color1, button:colors.color2},
+            {background:colors.color2, button:colors.color3}
         ];
 
 
         if (hasButton) {
-            //se position for par recebe colors[0], se não colors[1]
+            //se position for par recebe bgColors[0], se não bgColors[1]
             return ( 
-                <PostButtonSC color={colors[position%2]}>  
+                <PostButtonSC color={bgColors[position%2]}>  
                     <h1>{post.title}</h1>
                     {hasText && (<p>{post.text}</p>)}
                     <button onClick={() => navigate(post.path)}>{post.button}</button>
@@ -37,7 +37,7 @@ export default function HomePage() {
             )
         } else if(position % 2 === 0) {
             return (
-                <PostTextSC color={colors[0]}>
+                <PostTextSC color={bgColors[0]}>
                     <img src={post.image} alt="imagem" />
                     <div>
                         <h1>{post.title}</h1>
@@ -47,7 +47,7 @@ export default function HomePage() {
             )
         } else {
             return (
-                <PostTextSC color={colors[1]}>
+                <PostTextSC color={bgColors[1]}>
                     <div>
                         <h1>{post.title}</h1>
                         <p>{post.text}</p>

@@ -13,6 +13,8 @@ import TestsPage from './pages/TestsPage/TestsPage'
 
 
 export default function App() {
+  const colors = {color1: '#F2F9FF', color2:'#76D423',color3: '#FCF20C'}
+
   return (
     <BrowserRouter>
       <NavBar />
@@ -20,7 +22,7 @@ export default function App() {
       <Routes>
         <Route path='/AboutUs' element={<AboutUs />} />
         <Route path='/CustomTestPage' element={<CustomTestPage />} />
-        <Route path='/' element={<HomePage />} />
+        <Route path='/' element={<HomePage colors={colors}/>} />
         <Route path='/LoginPage' element={<LoginPage />} />
         <Route path='/NewsPage' element={<NewsPage />} />
         <Route path='/TestsPage' element={<TestsPage />} />
