@@ -38,6 +38,8 @@ const ContainerSC = styled.div`
     left: 0;
     z-index: 1;
     background-color: #ffffff;
+    box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
 
     div {
         display: flex;
