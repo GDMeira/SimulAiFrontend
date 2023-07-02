@@ -20,7 +20,7 @@ export default function Footer() {
                 <h1>Física Médica Brasil</h1>
             </LogoTitleSC>
             <ContainerPagesLink>
-                {links.map(link => <Link to={link.path}><h2>{link.name}</h2></Link>)}
+                {links.map((link, i) => <Link key={i} to={link.path}><h2>{link.name}</h2></Link>)}
             </ContainerPagesLink>
         </ContainerSC>
     )

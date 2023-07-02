@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom"
 import email from '../assets/email.png'
 import facebook from '../assets/facebook.png'
 import whatsapp from '../assets/whatsapp.png'
@@ -12,7 +11,7 @@ import twitter from '../assets/twitter.png'
 
 
 export default function Footer() {
-    const icons = [
+    const desktopIcons = [
         { image: whatsapp, text: '(19)999999999', path: 'https://whatsapp.com' },
         { image: email, text: 'contato@cont.com', path: 'https://www.gmail.com' },
         { image: linkedin, text: '', path: 'https://linkedin.com' },
@@ -23,10 +22,18 @@ export default function Footer() {
         { image: twitter, text: '', path: 'https://www.' },
     ];
 
+    const mobileIcons = [
+        { image: whatsapp, text: '(19)999999999', path: 'https://whatsapp.com' },
+        { image: email, text: '', path: 'https://www.gmail.com' },
+        { image: linkedin, text: '', path: 'https://linkedin.com' },
+    ]
+
+    const visibleIcons = (window.innerWidth > 700 ? desktopIcons : mobileIcons)
+
     return (
         <ContainerSC>
-            {icons.map(icon => {
-                return <div>
+            {visibleIcons.map((icon, i) => {
+                return <div key={i}>
                     <a href={icon.path}>
                         <img src={icon.image} alt="icon" />
                     </a>
@@ -43,11 +50,11 @@ export default function Footer() {
 
 const ContainerSC = styled.div`
     width: 100vw;
-    height: 100px;
+    height: 8vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 30px;
+    font-size: 2vh;
     position: relative;
     z-index: 1;
     background-color: #e0d83a;
@@ -56,11 +63,15 @@ const ContainerSC = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: 0 20px;
+        margin: 0 0.3vw;
     }
 
     span {
-        margin: 0 15px;
+        margin: 0 0.8vh;
+    }
+
+    img {
+        width: 4vh;
     }
 
 `;
