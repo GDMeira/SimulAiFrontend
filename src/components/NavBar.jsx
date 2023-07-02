@@ -28,11 +28,11 @@ export default function Footer() {
 
 const ContainerSC = styled.div`
     width: 100vw;
-    height: 100px;
+    height: 10vh;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    font-size: 30px;
+    font-size: 3vh;
     position: fixed;
     top: 0;
     left: 0;
@@ -40,6 +40,7 @@ const ContainerSC = styled.div`
     background-color: #ffffff;
     box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.2);
     opacity: 0.9;
+    overflow: hidden;
 
     div {
         display: flex;
@@ -51,15 +52,15 @@ const ContainerSC = styled.div`
 `;
 
 const LogoTitleSC = styled.div`
-    font-size: 32px;
+    font-size: 3.2vh;
 
     img {
-        width: 100px;
+        width: 10vh;
     }
 `;
 
 const ContainerPagesLink = styled.div`
-    width: 900px;
-    font-size: 22px;
+    width: 65vw;
+    font-size: 2.2vh;
     text-transform: uppercase;
 `;
