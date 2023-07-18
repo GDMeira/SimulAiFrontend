@@ -8,6 +8,7 @@ import CustomTestPage from './pages/CustomTestsPage/CustomTestPage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import NewsPage from './pages/NewsPage/NewsPage'
 import TestsPage from './pages/TestsPage/TestsPage'
+import { pages } from './routes/routes'
 
 
 
@@ -20,12 +21,12 @@ export default function App() {
       <NavBar />
 
       <Routes>
-        <Route path='/AboutUs' element={<AboutUs />} />
-        <Route path='/CustomTestPage' element={<CustomTestPage />} />
-        <Route path='/' element={<HomePage colors={colors}/>} />
-        <Route path='/LoginPage' element={<LoginPage />} />
-        <Route path='/NewsPage' element={<NewsPage />} />
-        <Route path='/TestsPage' element={<TestsPage />} />
+        <Route path={pages.aboutUs} element={<AboutUs />} />
+        <Route path={pages.customTests} element={<CustomTestPage />} />
+        <Route path={pages.home} element={<HomePage colors={colors}/>} />
+        <Route path={pages.signIn} element={<LoginPage />} />
+        <Route path={pages.news} element={<NewsPage />} />
+        <Route path={pages.tests} element={<TestsPage />} />
       </Routes>
 
       <Footer />

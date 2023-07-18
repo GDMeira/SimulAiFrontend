@@ -1,16 +1,18 @@
 import styled from "styled-components"
 import logo from '/logo.svg'
 import { Link } from "react-router-dom";
+import { pages } from "../routes/routes";
 
+// TODO: criar menu burguer para window.innerWidth < 1200
 
 export default function Footer() {
     const links = [
-        {name:'Home' ,path:'/' },
-        {name:'Simulados' ,path:'/TestsPage' },
-        {name:'Simulados customizados' ,path:'/CustomTestPage' },
-        {name:'Notícias' ,path:'/NewsPage' },
-        {name:'Sobre' ,path:'/AboutUs' },
-        {name:'Login' ,path:'/LoginPage' }
+        {name:'Home', path: pages.home },
+        {name:'Simulados', path: pages.tests },
+        {name:'Provas customizadas', path: pages.customTests },
+        {name:'Notícias', path: pages.news },
+        {name:'Sobre', path: pages.aboutUs },
+        {name:'Login', path: pages.signIn }
     ];
 
     return (
