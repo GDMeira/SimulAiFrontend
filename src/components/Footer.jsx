@@ -28,7 +28,8 @@ export default function Footer() {
         { image: linkedin, text: '', path: 'https://linkedin.com' },
     ]
 
-    const visibleIcons = (window.innerWidth > 700 ? desktopIcons : mobileIcons)
+    const isMobile = window.innerWidth > 1200;
+    const visibleIcons = (isMobile ? desktopIcons : mobileIcons)
 
     return (
         <ContainerSC>

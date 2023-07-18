@@ -2,28 +2,77 @@ import styled from "styled-components"
 import logo from '/logo.svg'
 import { Link } from "react-router-dom";
 import { pages } from "../routes/routes";
-
-// TODO: criar menu burguer para window.innerWidth < 1200
+import { IonIcon } from "@ionic/react";
+import { menuSharp } from 'ionicons/icons'
+import { useState } from "react";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 export default function Footer() {
-    const links = [
-        {name:'Home', path: pages.home },
-        {name:'Simulados', path: pages.tests },
-        {name:'Provas customizadas', path: pages.customTests },
-        {name:'Notícias', path: pages.news },
-        {name:'Sobre', path: pages.aboutUs },
-        {name:'Login', path: pages.signIn }
+    const [isMenuVisible, setIsMenuVisible] = useState(false);
+    const menuRef = useRef(null);
+
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+          if (isMenuVisible && !menuRef.current.contains(event.target)) {
+            closeMenu();
+          }
+        }
+    
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+          document.removeEventListener('click', handleClickOutside);
+        };
+      }, [isMenuVisible]);
+
+    function closeMenu() {
+        setIsMenuVisible(false);
+    }
+
+    const desktopLinks = [
+        { name: 'Home', path: pages.home },
+        { name: 'Simulados', path: pages.tests },
+        { name: 'Provas customizadas', path: pages.customTests },
+        { name: 'Notícias', path: pages.news },
+        { name: 'Sobre', path: pages.aboutUs },
+        { name: 'Login', path: pages.signIn }
     ];
+
+    const mobileLinks = [
+        { name: 'Home', path: pages.home },
+        { name: 'Simulados', path: pages.tests },
+        { name: 'Customizadas', path: pages.customTests }
+    ];
+
+    const mobileMenu = [
+        { name: 'Notícias', path: pages.news },
+        { name: 'Sobre', path: pages.aboutUs },
+        { name: 'Login', path: pages.signIn }
+    ];
+
+    const isMobile = window.innerWidth < 1200;
+    const visibleLinks = (!isMobile ? desktopLinks : mobileLinks);
 
     return (
         <ContainerSC>
             <LogoTitleSC>
                 <img src={logo} alt="logo" />
-                <h1>Física Médica Brasil</h1>
+                {!isMobile && <h1>Física Médica Brasil</h1>}
             </LogoTitleSC>
             <ContainerPagesLink>
-                {links.map((link, i) => <Link key={i} to={link.path}><h2>{link.name}</h2></Link>)}
+                {visibleLinks.map((link, i) => <Link key={i} to={link.path}><h2>{link.name}</h2></Link>)}
             </ContainerPagesLink>
+            {isMobile && (
+                <>
+                    < IonIcon icon={menuSharp} onClick={() => setIsMenuVisible(!isMenuVisible) } ref={menuRef} />
+                    {isMenuVisible && (
+                        <MenuSC >
+                            {mobileMenu.map((item, i) => <Link key={i} to={item.path}><h2>{item.name}</h2></Link>)}
+                        </MenuSC>
+                    )}
+                </>
+            )}
         </ContainerSC>
     )
 }
@@ -32,7 +81,7 @@ const ContainerSC = styled.div`
     width: 100vw;
     height: 10vh;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     font-size: 3vh;
     position: fixed;
@@ -51,6 +100,11 @@ const ContainerSC = styled.div`
         color: #547c31;
         font-weight: 700;
     }
+
+    ion-icon {
+        color: #547c31;
+        font-size: 25px;
+    }
 `;
 
 const LogoTitleSC = styled.div`
@@ -65,4 +119,22 @@ const ContainerPagesLink = styled.div`
     width: 65vw;
     font-size: 2.2vh;
     text-transform: uppercase;
+
+    @media(max-width: 1200px){
+        font-size: 3.3vw;
+    }
 `;
+
+const MenuSC = styled.ul`
+    height: 17vh;
+    width: 30vw;
+    position: fixed;
+    top: 8vh;
+    right: 0;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+`
