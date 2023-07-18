@@ -9,8 +9,10 @@ import LoginPage from './pages/LoginPage/LoginPage'
 import NewsPage from './pages/NewsPage/NewsPage'
 import TestsPage from './pages/TestsPage/TestsPage'
 import { pages } from './routes/routes'
+import '@ionic/react/css/core.css';
+import { setupIonicReact } from '@ionic/react';
 
-
+setupIonicReact();
 
 
 export default function App() {
