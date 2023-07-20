@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import ColorContext from "../../contexts/colors";
 
-export default function Post({ position, post, colors }) {
+export default function Post({ position, post }) {
     const navigate = useNavigate();
+    const colors = useContext(ColorContext);
 
     const hasText = post.text !== '';
     // const hasImage = post.image !== undefined;
