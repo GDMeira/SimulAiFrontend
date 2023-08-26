@@ -39,7 +39,7 @@ export default function HomePage() {
 
 const ContainerHomeSC = styled.main`
     width: 100vw;
-    margin-top: 10vh;
+    padding-top: 10vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

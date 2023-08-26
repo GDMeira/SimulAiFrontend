@@ -27,7 +27,7 @@ export default function Footer() {
         { image: whatsapp, text: '', path: 'https://whatsapp.com' },
         { image: email, text: '', path: 'https://www.gmail.com' },
         { image: linkedin, text: '', path: 'https://linkedin.com' },
-    ]
+    ];
 
     const isMobile = window.innerWidth > 1200;
     const visibleIcons = (isMobile ? desktopIcons : mobileIcons)
@@ -39,7 +39,7 @@ export default function Footer() {
                     <a href={icon.path}>
                         <img src={icon.image} alt="icon" />
                     </a>
-                    <span>{icon.text}</span>
+                    {icon.text.length > 0 && <span>{icon.text}</span>}
                 </div>
             })}
 

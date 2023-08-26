@@ -70,7 +70,6 @@ const ContainerSC = styled.div`
     font-size: 3vh;
     position: fixed;
     top: 0;
-    left: 0;
     z-index: 1;
     background-color: #ffffff;
     box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.2);
@@ -83,12 +82,9 @@ const ContainerSC = styled.div`
         align-items: center;
         color: #547c31;
         font-weight: 700;
+        height: 10vh;
     }
 
-    ion-icon {
-        color: #547c31;
-        font-size: 25px;
-    }
 `;
 
 const LogoTitleSC = styled.div`
