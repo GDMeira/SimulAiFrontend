@@ -4,5 +4,6 @@ export const pages = {
     customTests: '/CustomTestPage',
     news: '/NewsPage',
     aboutUs: '/AboutUs',
-    signIn: '/LoginPage'
+    signIn: '/LoginPage',
+    signUp: '/SignUpPage',
 }

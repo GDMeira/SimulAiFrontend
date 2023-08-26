@@ -11,6 +11,7 @@ import twitter from '../assets/twitter.png'
 
 
 export default function Footer() {
+    // TODO: tirar frase "Física médica brasil 2023" no mobile
     const desktopIcons = [
         { image: whatsapp, text: '(19)999999999', path: 'https://whatsapp.com' },
         { image: email, text: 'contato@cont.com', path: 'https://www.gmail.com' },
@@ -23,10 +24,10 @@ export default function Footer() {
     ];
 
     const mobileIcons = [
-        { image: whatsapp, text: '(19)999999999', path: 'https://whatsapp.com' },
+        { image: whatsapp, text: '', path: 'https://whatsapp.com' },
         { image: email, text: '', path: 'https://www.gmail.com' },
         { image: linkedin, text: '', path: 'https://linkedin.com' },
-    ]
+    ];
 
     const isMobile = window.innerWidth > 1200;
     const visibleIcons = (isMobile ? desktopIcons : mobileIcons)
@@ -38,7 +39,7 @@ export default function Footer() {
                     <a href={icon.path}>
                         <img src={icon.image} alt="icon" />
                     </a>
-                    <span>{icon.text}</span>
+                    {icon.text.length > 0 && <span>{icon.text}</span>}
                 </div>
             })}
 
@@ -53,7 +54,7 @@ const ContainerSC = styled.div`
     width: 100vw;
     height: 8vh;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     font-size: 2vh;
     position: relative;

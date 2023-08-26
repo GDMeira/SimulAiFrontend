@@ -7,7 +7,8 @@ import Post from "./Post";
 import { pages } from "../../routes/routes";
 
 
-export default function HomePage({colors}) {
+export default function HomePage() {
+    // TODO: criar estado para isMobile
     const navigate = useNavigate();
 
     const desktopPosts = [
@@ -31,14 +32,14 @@ export default function HomePage({colors}) {
 
     return (
         <ContainerHomeSC>
-            {posts.map((post,i) => <Post key={i} post={post} position={i} colors={colors}/>)}
+            {posts.map((post,i) => <Post key={i} post={post} position={i} />)}
         </ContainerHomeSC>
     )
 }
 
 const ContainerHomeSC = styled.main`
     width: 100vw;
-    margin-top: 10vh;
+    padding-top: 10vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

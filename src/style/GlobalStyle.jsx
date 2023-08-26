@@ -1,7 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-    font-family: 'Sans Serif Collection';
+    * {
+        font-family: 'Sans Serif Collection';
+    }
 
     a {
         color: inherit;
