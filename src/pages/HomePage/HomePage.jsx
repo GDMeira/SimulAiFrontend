@@ -8,6 +8,7 @@ import { pages } from "../../routes/routes";
 
 
 export default function HomePage() {
+    // TODO: criar estado para isMobile
     const navigate = useNavigate();
 
     const desktopPosts = [
@@ -38,7 +39,7 @@ export default function HomePage() {
 
 const ContainerHomeSC = styled.main`
     width: 100vw;
-    padding-top: 10vh;
+    margin-top: 10vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

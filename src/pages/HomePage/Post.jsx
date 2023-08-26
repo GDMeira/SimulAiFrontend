@@ -50,7 +50,8 @@ export default function Post({ position, post }) {
 
 const PostTextSC = styled.div`
     width: 100%;
-    height: 35vh;
+    height: auto;
+    padding: 1vh 0;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -61,13 +62,11 @@ const PostTextSC = styled.div`
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: space-evenly;
         align-items: center;
 
         h1 {
             font-size: 0.9em;
-            margin-top: 3vh;
-            margin-bottom: 1em;
             text-align: center;
         }
 
@@ -96,7 +95,8 @@ const PostTextSC = styled.div`
 
 const PostButtonSC = styled.div`
     width: 100%;
-    height: 35vh;
+    height: auto;
+    padding: 1vh 0;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -122,5 +122,8 @@ const PostButtonSC = styled.div`
         font-size: 0.7em;
         border-radius: 2em;
         box-shadow: 0 5px 2px 1px rgba(0, 0, 0, 0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 `;
