@@ -19,7 +19,7 @@ const LayoutSC = styled.main`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 10vh;
+    padding-top: 11vh;
     background-image: linear-gradient(to right, ${props => props.colors.color1} 0%,
         ${props => props.colors.color2} 55%,  ${props => props.colors.color2} 100%);
 `

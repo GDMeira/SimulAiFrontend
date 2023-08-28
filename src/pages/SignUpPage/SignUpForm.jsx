@@ -1,23 +1,28 @@
 import styled from "styled-components";
-import { Button, FormControl, FormHelperText, FormLabel, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text } from "@chakra-ui/react";
-import { FcGoogle } from "react-icons/fc";
-import { BsFacebook, BsKey } from "react-icons/bs";
+import { Button, FormControl, FormErrorMessage, Input, InputGroup, InputLeftElement, InputRightElement, Text, Tooltip } from "@chakra-ui/react";
+import { HiOutlineIdentification } from "react-icons/hi";
+import { BsKey, BsTelephone, BsCalendarEvent } from "react-icons/bs";
 import { AiOutlineMail, AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { BiSolidInstitution } from "react-icons/bi";
 import { useContext } from "react";
 import ColorContext from "../../contexts/colors";
 import { useState } from "react";
-import { signIn } from "../../routes/controller";
-import UserContext from "../../contexts/user";
 import { useNavigate } from "react-router-dom";
 import { pages } from "../../routes/routes";
+import { signUp } from "../../routes/controller";
+import dayjs from "dayjs";
 
 export default function SignUpForm() {
-    const { setUser } = useContext(UserContext);
     const { color1, color2, color3 } = useContext(ColorContext);
     const [formStates, setFormStates] = useState({
-        email: "",
-        password: ""
-    })
+        email: { value: "", isInvalid: false },
+        password: { value: "", isInvalid: false },
+        passwordConfirm: { value: "", isInvalid: false },
+        institution: { value: "", isInvalid: false },
+        name: { value: "", isInvalid: false },
+        birthday: { value: "", isInvalid: false },
+        phone: { value: "", isInvalid: false }
+    });
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
@@ -25,99 +30,258 @@ export default function SignUpForm() {
     const handleClick = () => setShow(!show);
 
     function handleChange(event) {
-        const newStates = { ...formStates, [event.target.name]: event.target.value }
-        setFormStates(newStates);
+        const fieldName = event.target.name;
+        const fieldValue = event.target.value;
+
+        const newFormStates = {
+            ...formStates,
+            [fieldName]: {
+                ...formStates[fieldName],
+                value: fieldValue,
+                isInvalid: false
+            }
+        };
+
+        setFormStates(newFormStates);
     }
 
     async function handleSubmit(event) {
         event.preventDefault();
-        setIsLoading(true);
+        let newFormStates = { ...formStates };
 
-        try {
-            const answer = await signIn(formStates);
-            setUser(answer.data);
-            localStorage.setItem("userSA", JSON.stringify(answer.data));
-            navigate(pages.tests)
-        } catch (error) {
-            alert(error.response.data)
+        if (formStates.password.value !== formStates.passwordConfirm.value) {
+            newFormStates = {
+                ...newFormStates,
+                passwordConfirm: { ...newFormStates.passwordConfirm, isInvalid: true },
+            };
         }
 
-        setIsLoading(false);
+        const oldestAccept = dayjs('1900/01/01');
+
+        const today = dayjs();
+        const birthdayDate = dayjs(formStates.birthday.value, "YYYY-MM-DD");
+        console.log(formStates.birthday.value, birthdayDate.toString(), birthdayDate.isBefore(oldestAccept))
+
+        if (birthdayDate.isAfter(today) || birthdayDate.isBefore(oldestAccept)) {
+            newFormStates = {
+                ...newFormStates,
+                birthday: { ...newFormStates.birthday, isInvalid: true }
+            };
+        }
+
+        if (newFormStates.phone.value.length > 11 || newFormStates.phone.value.length < 10) {
+            newFormStates = {
+                ...newFormStates,
+                phone: { ...newFormStates.phone, isInvalid: true }
+            };
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(newFormStates.email.value)) {
+            newFormStates = {
+                ...newFormStates,
+                email: { ...newFormStates.email, isInvalid: true }
+            };
+        }
+
+        let body = {};
+
+        if (Object.entries(newFormStates).some(([key, state]) => state.isInvalid)) {
+            setFormStates(newFormStates);
+            return;
+        } else {
+            Object.entries(newFormStates).forEach(([key, state]) => body[key] = state.value)
+        }
+
+        setIsLoading(true);
+        delete body.passwordConfirm;
+        body.birthday = birthdayDate.format('DD/MM/YYYY').toString();
+
+        console.log(body)
+
+        try {
+            await signUp(body);
+            navigate(pages.signIn)
+        } catch (error) {
+            if (error.response) {
+                alert(error.response.data);
+            } else {
+                alert(error);
+            }
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
         <FormsContainerSC>
-            <Stack direction='column' spacing={4} w='100%'>
-                <Button
-                    h='60px'
-                    leftIcon={<FcGoogle />}
-                    color={color1}
-                    variant='solid'
-                    textColor='black'
-                    isLoading={isLoading}
-                >
-                    Entrar com google
-                </Button>
-                <Button
-                    h='60px'
-                    leftIcon={<BsFacebook />}
-                    color={color1}
-                    variant='solid'
-                    textColor='black'
-                    isLoading={isLoading}
-                >
-                    Entrar com Facebook
-                </Button>
-            </Stack>
-            <Breaker />
             <FormSC onSubmit={handleSubmit} >
-                <InputGroup >
-                    <InputLeftElement pointerEvents='none'>
-                        <AiOutlineMail color='gray.300' />
-                    </InputLeftElement>
-                    <Input
-                        required
-                        type='email'
-                        placeholder='mail@prov.com'
-                        bgColor={color1}
-                        name="email"
-                        value={formStates.email}
-                        onChange={handleChange}
-                        size='lg'
-                        disabled={isLoading}
-                    />
-                </InputGroup>
-                <InputGroup mt={3}>
-                    <InputLeftElement pointerEvents='none'>
-                        <BsKey color='gray.300' />
-                    </InputLeftElement>
-                    <Input
-                        required
-                        type={show ? 'text' : 'password'}
-                        placeholder='***'
-                        bgColor={color1}
-                        name="password"
-                        value={formStates.password}
-                        onChange={handleChange}
-                        size='lg'
-                        disabled={isLoading}
-                    />
-                    <InputRightElement width='4.5rem'>
-                        <Button h='1.75rem' size='sm' onClick={handleClick} bg='none'>
-                            {show ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-                        </Button>
-                    </InputRightElement>
-                </InputGroup>
+                <Tooltip hasArrow placement='top' label='Seu email' bgColor={color3} color={color2}>
+                    <FormControl isInvalid={formStates.email.isInvalid} >
+                        <InputGroup >
+                            <InputLeftElement pointerEvents='none' h='100%'>
+                                <AiOutlineMail color='gray.300' size={30} />
+                            </InputLeftElement>
+                            <Input
+                                h={window.screen.width > 1200 ? '60px' : '50px'}
+                                required
+                                type='text'
+                                placeholder='mail@prov.com'
+                                bgColor={color1}
+                                name="email"
+                                value={formStates.email.value}
+                                onChange={handleChange}
+                                size='lg'
+                                disabled={isLoading}
+                            />
+                        </InputGroup>
+                        <FormErrorMessage>Email inválido.</FormErrorMessage>
+                    </FormControl>
+                </Tooltip>
 
-                <Text
-                    fontSize='sm'
-                    textAlign='right'
-                    w='98%'
-                    mt={1}
-                    cursor='pointer'
-                >
-                    Esqueci minha senha
-                </Text>
+                <Tooltip hasArrow placement='top' label='Seu nome' bgColor={color3} color={color2}>
+                    <InputGroup mt={3}>
+                        <InputLeftElement pointerEvents='none' h='100%'>
+                            <HiOutlineIdentification color='gray.300' size={30} />
+                        </InputLeftElement>
+                        <Input
+                            h={window.screen.width > 1200 ? '60px' : '50px'}
+                            required
+                            type='text'
+                            placeholder='Joana Dark'
+                            bgColor={color1}
+                            name="name"
+                            value={formStates.name.value}
+                            isInvalid={formStates.name.isInvalid}
+                            onChange={handleChange}
+                            size='lg'
+                            disabled={isLoading}
+                        />
+                    </InputGroup>
+                </Tooltip>
+
+                <Tooltip hasArrow placement='top' label='Instituição onde estuda/estudou' bgColor={color3} color={color2}>
+                    <InputGroup mt={3}>
+                        <InputLeftElement pointerEvents='none' h='100%'>
+                            <BiSolidInstitution color='gray.300' size={30} />
+                        </InputLeftElement>
+                        <Input
+                            h={window.screen.width > 1200 ? '60px' : '50px'}
+                            required
+                            type='text'
+                            placeholder='Universidade de São Paulo'
+                            bgColor={color1}
+                            name="institution"
+                            value={formStates.institution.value}
+                            isInvalid={formStates.institution.isInvalid}
+                            onChange={handleChange}
+                            size='lg'
+                            disabled={isLoading}
+                        />
+                    </InputGroup>
+                </Tooltip>
+
+                <Tooltip hasArrow placement='top' label='Número de celular' bgColor={color3} color={color2}>
+                    <FormControl isInvalid={formStates.phone.isInvalid} >
+                        <InputGroup mt={3}>
+                            <InputLeftElement pointerEvents='none' h='100%'>
+                                <BsTelephone color='gray.300' size={30} />
+                            </InputLeftElement>
+                            <Input
+                                h={window.screen.width > 1200 ? '60px' : '50px'}
+                                required
+                                type='text'
+                                placeholder='16912345678'
+                                bgColor={color1}
+                                name="phone"
+                                value={formStates.phone.value}
+                                onChange={handleChange}
+                                size='lg'
+                                disabled={isLoading}
+                            />
+                        </InputGroup>
+                        <FormErrorMessage>Telefone inválido.</FormErrorMessage>
+                    </FormControl>
+                </Tooltip>
+
+                <Tooltip hasArrow placement='top' label='Data de nascimento' bgColor={color3} color={color2}>
+                    <FormControl isInvalid={formStates.birthday.isInvalid} >
+                        <InputGroup mt={3}>
+                            <InputLeftElement pointerEvents='none' h='100%'>
+                                <BsCalendarEvent color='gray.300' size={30} />
+                            </InputLeftElement>
+                            <Input
+                                h={window.screen.width > 1200 ? '60px' : '50px'}
+                                required
+                                type="date"
+                                placeholder='Data de nascimento'
+                                bgColor={color1}
+                                name="birthday"
+                                value={formStates.birthday.value}
+                                onChange={handleChange}
+                                size='lg'
+                                disabled={isLoading}
+                                min="1900-01-01"
+                            />
+                        </InputGroup>
+                        <FormErrorMessage>Data de nascimento inválida.</FormErrorMessage>
+                    </FormControl>
+                </Tooltip>
+
+                <Tooltip hasArrow placement='top' label='Sua senha' bgColor={color3} color={color2}>
+                    <InputGroup mt={3}>
+                        <InputLeftElement pointerEvents='none' h='100%' >
+                            <BsKey color='gray.300' size={30} />
+                        </InputLeftElement>
+                        <Input
+                            h={window.screen.width > 1200 ? '60px' : '50px'}
+                            required
+                            type={show ? 'text' : 'password'}
+                            placeholder='senha'
+                            bgColor={color1}
+                            name="password"
+                            value={formStates.password.value}
+                            isInvalid={formStates.password.isInvalid}
+                            onChange={handleChange}
+                            size='lg'
+                            disabled={isLoading}
+                        />
+                        <InputRightElement width='4.5rem' h='100%'>
+                            <Button h='1.75rem' size='sm' onClick={handleClick} bg='none'>
+                                {show ? <AiOutlineEyeInvisible size={30} /> : <AiOutlineEye size={30} />}
+                            </Button>
+                        </InputRightElement>
+                    </InputGroup>
+                </Tooltip>
+
+                <Tooltip hasArrow placement='top' label='Confirmação de senha' bgColor={color3} color={color2}>
+                    <FormControl isInvalid={formStates.passwordConfirm.isInvalid} >
+                        <InputGroup mt={3}>
+                            <InputLeftElement pointerEvents='none' h='100%' >
+                                <BsKey color='gray.300' size={30} />
+                            </InputLeftElement>
+                            <Input
+                                h={window.screen.width > 1200 ? '60px' : '50px'}
+                                required
+                                type={show ? 'text' : 'password'}
+                                placeholder='confirmação de senha'
+                                bgColor={color1}
+                                name="passwordConfirm"
+                                value={formStates.passwordConfirm.value}
+
+                                onChange={handleChange}
+                                size='lg'
+                                disabled={isLoading}
+                            />
+                            <InputRightElement width='4.5rem' h='100%'>
+                                <Button h='1.75rem' size='sm' onClick={handleClick} bg='none'>
+                                    {show ? <AiOutlineEyeInvisible size={30} /> : <AiOutlineEye size={30} />}
+                                </Button>
+                            </InputRightElement>
+                        </InputGroup>
+                        <FormErrorMessage>Confirmação de senha incorreta.</FormErrorMessage>
+                    </FormControl>
+                </Tooltip>
 
                 <Button
                     isLoading={isLoading}
@@ -128,17 +292,18 @@ export default function SignUpForm() {
                     alignSelf='center'
                     mt={5}
                 >
-                    Entrar
+                    Cadastrar
                 </Button>
 
                 <Text
                     fontSize='lg'
                     cursor='pointer'
                     mt={5}
-                    _hover={{color: '#fff'}}
-                    onClick={() => navigate(pages.signUp)}
+                    _hover={{ color: '#fff' }}
+                    onClick={() => navigate(pages.signIn)}
+                    textAlign='center'
                 >
-                    Ainda não tem uma conta? Cadastre-se
+                    Já tem cadastro? Faça login
                 </Text>
 
             </FormSC>
@@ -149,14 +314,18 @@ export default function SignUpForm() {
 
 const FormsContainerSC = styled.section`
     width: 40vw;
-    height: 65vh;
+    min-height: 65vh;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    
 
     @media (max-width: 1200px) {
         width: 70vw;
+        min-height: 80vh;
+
+        margin-bottom: 20px;
     }
 `
 

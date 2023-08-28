@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import PageLayout from "../../components/PageLayout";
-import imgLoginDesktop from "../../assets/loginDesktop.jpg";
+import imgsignupDesktop from "../../assets/signupDesktop.jpg";
 import SignUpForm from "./SignUpForm";
 
 export default function SignUpPage() {
@@ -9,7 +9,7 @@ export default function SignUpPage() {
     return (
         <PageLayout>
             {!isMobile && <ImageContainerSC>
-                <img src={imgLoginDesktop} alt="Acesse sua conta" />
+                <img src={imgsignupDesktop} alt="Acesse sua conta" />
             </ImageContainerSC>}
             <SignUpForm />
         </PageLayout>
@@ -25,7 +25,7 @@ const ImageContainerSC = styled.div`
     background-color: #fff;
     border-radius: 50px;
     box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.25);
-    margin-right: 1vw;
+    margin-right: 3vw;
 
     img {
         width: 90%;
