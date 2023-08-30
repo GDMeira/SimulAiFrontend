@@ -5,6 +5,7 @@ import desempenho from './images/desempenho.png';
 import { useNavigate } from "react-router-dom";
 import Post from "./Post";
 import { pages } from "../../routes/routes";
+import Carrousel from "./Carrousel";
 
 
 export default function HomePage() {
@@ -32,13 +33,14 @@ export default function HomePage() {
 
     return (
         <ContainerHomeSC>
+            <Carrousel/>
             {posts.map((post,i) => <Post key={i} post={post} position={i} />)}
         </ContainerHomeSC>
     )
 }
 
 const ContainerHomeSC = styled.main`
-    width: 100%;
+    width: 100vw;
     padding-top: 10vh;
     display: flex;
     flex-direction: column;
