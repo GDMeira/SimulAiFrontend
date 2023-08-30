@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, FormControl, FormErrorMessage, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook, BsKey } from "react-icons/bs";
 import { AiOutlineMail, AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -20,6 +20,7 @@ export default function LoginForm() {
     })
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [loginError, setLoginError] = useState(false);
     const navigate = useNavigate();
 
     const handleClick = () => setShow(!show);
@@ -38,12 +39,13 @@ export default function LoginForm() {
         };
 
         setFormStates(newFormStates);
+        if (loginError) setLoginError(false);
     }
 
     async function handleSubmit(event) {
         event.preventDefault();
 
-        let newFormStates = {...formStates};
+        let newFormStates = { ...formStates };
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(newFormStates.email.value)) {
             newFormStates = {
@@ -70,18 +72,14 @@ export default function LoginForm() {
             navigate(pages.tests)
         } catch (error) {
             if (error.response.status === 401) {
-                setFormStates({...formStates,
-                    password: {...formStates.password, isInvalid: true}
+                setFormStates({
+                    ...formStates,
+                    password: { ...formStates.password, isInvalid: true },
+                    email: { ...formStates.email, isInvalid: true }
                 })
-            }
 
-            if (error.response.status === 404) {
-                setFormStates({...formStates,
-                    email: {...formStates.email, isInvalid: true}
-                })
+                setLoginError(true);
             }
-
-            alert(error.response.data.message);
         }
 
         setIsLoading(false);
@@ -114,7 +112,14 @@ export default function LoginForm() {
                 </Button>
             </Stack>
             <Breaker />
+
+            {loginError && <Alert status='error' w={window.screen.width > 1200 ? '60%' : '100%'} fontSize={20} borderRadius={5}>
+                    <AlertIcon />
+                    Email ou senha inválida
+                </Alert>}
             <FormSC onSubmit={handleSubmit} >
+                
+
                 <FormControl isInvalid={formStates.email.isInvalid}>
                     <InputGroup >
                         <InputLeftElement pointerEvents='none' h='100%'>
