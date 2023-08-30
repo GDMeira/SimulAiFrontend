@@ -21,7 +21,7 @@ export default function HomePage() {
 
     const mobilePosts = [
         {title:'Simulados em Física Médica', text:'Mais de 5000 questões de 14 instituições. Resoluções, Questões comentadas, Análises personalizadas e muito mais.', image:undefined, button:'AVALIAÇÃO GRATUITA', path:pages.signIn},
-        {title:'Escolha os temas das questões', text:'SUS, Mecânica Quântica, Cálculo, Radioterapia, entre outros.', image:questoes, button:'', path:''},
+        {title:'Filtre os temas', text:'SUS, Mecânica Quântica, Cálculo, Radioterapia, entre outros.', image:questoes, button:'', path:''},
         {title:'Foco no objetivo', text:'Selecione apenas questões das instituições e hospitais que tenha interesse.', image:objetivo, button:'', path:''},
         {title:'Melhore seu desempenho', text:'Histórico de questões com análises personalisadas.', image:desempenho , button:'', path:''},
         {title:'Prepare-se para a Prova de Residência', text:'', image: undefined, button:'AVALIAÇÃO GRATUITA', path:'/LoginPage'}
@@ -38,7 +38,7 @@ export default function HomePage() {
 }
 
 const ContainerHomeSC = styled.main`
-    width: 100vw;
+    width: 100%;
     padding-top: 10vh;
     display: flex;
     flex-direction: column;

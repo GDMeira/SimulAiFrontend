@@ -62,7 +62,7 @@ const PostTextSC = styled.div`
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
+        justify-content: space-around;
         align-items: center;
 
         h1 {
@@ -90,6 +90,11 @@ const PostTextSC = styled.div`
         div {
             width: 60%;
         }
+
+        h1, p {
+            line-height: 1.2em;
+            text-align: center;
+        }
     }
 `;
 
@@ -105,16 +110,20 @@ const PostButtonSC = styled.div`
 
     h1 {
         font-size: 1.2em;
+        width: 60%;
+        text-align: center;
     }
 
     p {
         font-size: 0.6em;
         padding-left: 1%;
+        width: 60%;
+        text-align: center;
     }
 
     button {
-        width: 30%;
-        height: 7vw; 
+        width: 20%;
+        height: 5%; 
         min-width: 200px;
         min-height: 60px;
         background-color: ${props => props.color.button}; 
@@ -125,5 +134,13 @@ const PostButtonSC = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: 15px;
+    }
+
+    @media (max-width: 1200px) {
+        h1, p {
+            width: 100%;
+            line-height: 1.2em;
+        }
     }
 `;

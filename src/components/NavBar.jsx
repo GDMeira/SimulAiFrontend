@@ -37,7 +37,7 @@ export default function Footer() {
                 {!isMobile && <h1>Física Médica Brasil</h1>}
             </LogoTitleSC>
             <ContainerPagesLink>
-                {visibleLinks.map((link, i) => <Link key={i} to={link.path}><h2>{link.name}</h2></Link>)}
+                {visibleLinks.map((link, i) => <LinkSC key={i} to={link.path}><h2>{link.name}</h2></LinkSC>)}
             </ContainerPagesLink>
             {isMobile && (
                 <>
@@ -96,7 +96,7 @@ const LogoTitleSC = styled.div`
 `;
 
 const ContainerPagesLink = styled.div`
-    width: 65vw;
+    width: 65%;
     font-size: 2.2vh;
     text-transform: uppercase;
 
@@ -104,3 +104,14 @@ const ContainerPagesLink = styled.div`
         font-size: 3.3vw;
     }
 `;
+
+const LinkSC = styled(Link)`
+    border-radius: 10px;
+    padding: 10px;
+
+    &:hover {
+        background-color: #ababab;
+        font-style: italic;
+        text-decoration: underline;
+    }
+`
