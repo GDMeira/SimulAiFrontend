@@ -29,9 +29,28 @@ export default function SignUpForm() {
 
     const handleClick = () => setShow(!show);
 
+    function phoneBeautify() {
+        const phone = formStates.phone.value;
+
+        if (phone.length < 3) {
+            return phone;
+        } else if (phone.length < 7) {
+            return `(${phone.slice(0, 2)}) ${phone.slice(2)}`
+        } else if (phone.length < 11) {
+            return `(${phone.slice(0, 2)}) ${phone.slice(2, 6)}-${phone.slice(6)}`
+        } else {
+            return `(${phone.slice(0, 2)}) ${phone.slice(2, 7)}-${phone.slice(7)}`
+        }
+    }
+
     function handleChange(event) {
         const fieldName = event.target.name;
-        const fieldValue = event.target.value;
+        let fieldValue = event.target.value;
+
+        if (fieldName === 'phone') {
+            fieldValue = fieldValue.replace(/[()\s-]/g, '');
+            if (fieldValue.length > 11) fieldValue = fieldValue.slice(0, 11);
+        } 
 
         const newFormStates = {
             ...formStates,
@@ -69,7 +88,8 @@ export default function SignUpForm() {
             };
         }
 
-        if (newFormStates.phone.value.length > 11 || newFormStates.phone.value.length < 10) {
+        const phoneRegex = /^[0-9]{10,11}$/;
+        if (!phoneRegex.test(newFormStates.phone.value)) {
             newFormStates = {
                 ...newFormStates,
                 phone: { ...newFormStates.phone, isInvalid: true }
@@ -191,10 +211,10 @@ export default function SignUpForm() {
                                 h={window.screen.width > 1200 ? '60px' : '50px'}
                                 required
                                 type='text'
-                                placeholder='16912345678'
+                                placeholder='(16) 91234-5678'
                                 bgColor={color1}
                                 name="phone"
-                                value={formStates.phone.value}
+                                value={phoneBeautify()}
                                 onChange={handleChange}
                                 size='lg'
                                 disabled={isLoading}
