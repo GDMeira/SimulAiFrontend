@@ -23,8 +23,9 @@
   
   .swiper-slide {
     text-align: center;
-    font-size: 18px;
+    font-size: 30px;
     background: #fff;
+    color: #000;
   
     /* Center slide text vertically */
     display: flex;
@@ -41,7 +42,7 @@
   
   .autoplay-progress {
     position: absolute;
-    right: 16px;
+    right: 60px;
     bottom: 16px;
     z-index: 10;
     width: 48px;
