@@ -63,14 +63,14 @@ export default function Footer() {
 
 const ContainerSC = styled.div`
     width: 100vw;
-    height: 10vh;
+    height: 7vh;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     font-size: 3vh;
     position: fixed;
     top: 0;
-    z-index: 1;
+    z-index: 100;
     background-color: #ffffff;
     box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.2);
     opacity: 0.9;
@@ -82,7 +82,7 @@ const ContainerSC = styled.div`
         align-items: center;
         color: #547c31;
         font-weight: 700;
-        height: 10vh;
+        height: 7vh;
     }
 
 `;
