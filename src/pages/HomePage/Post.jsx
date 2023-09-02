@@ -2,48 +2,62 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ColorContext from "../../contexts/colors";
+import { Button, Flex, Text } from "@chakra-ui/react";
 
 export default function Post({ position, post }) {
     const navigate = useNavigate();
-    const colors = useContext(ColorContext);
+    const hasImage = post.image !== undefined;
+    const isMobile = window.innerWidth < 1200;
 
-    const hasText = post.text !== '';
-    // const hasImage = post.image !== undefined;
-    const hasButton = post.button !== '';
-    const bgColors = [
-        { background: colors.color1, button: colors.color2 },
-        { background: colors.color2, button: colors.color3 }
-    ];
-
-
-    if (hasButton) {
-        //se position for par recebe bgColors[0], se não bgColors[1]
+    if (hasImage) {
         return (
-            <PostButtonSC color={bgColors[position % 2]}>
-                <h1>{post.title}</h1>
-                {hasText && (<p>{post.text}</p>)}
-                <button onClick={() => navigate(post.path)}>{post.button}</button>
-            </PostButtonSC>
-        )
-    } else if (position % 2 === 0) {
-        return (
-            <PostTextSC color={bgColors[0]}>
-                <img src={post.image} alt="imagem" />
-                <div>
-                    <h1>{post.title}</h1>
-                    <p>{post.text}</p>
-                </div>
-            </PostTextSC>
+            <Flex
+                h="65vh"
+                w="100%"
+                bg={`url(${post.image}) no-repeat center center / cover`}
+                flexDirection="column"
+                justifyContent="space-around"
+                alignItems="center"
+                color="white"
+                textAlign="center"
+                mt={10}
+            >
+                <Text color='#fff' bgColor='#49474791' fontSize={isMobile ? 30 : 50} fontWeight={700} mb={10}>
+                    {post.title}
+                </Text>
+                <Text color='#fff' bgColor='#49474791' fontSize={isMobile ? 15 : 25} fontWeight={700} mb={10} w={isMobile ? '100%' : '40%'}>
+                    {post.text}
+                </Text>
+                <Button 
+                    p={2}
+                    color='#fff' 
+                    bgColor='#494747dd' 
+                    size={isMobile ? 'lg' : '2lg'}
+                    onClick={() => navigate(post.path)}
+                >
+                    {post.button}
+                </Button>
+            </Flex>
         )
     } else {
         return (
-            <PostTextSC color={bgColors[1]}>
-                <div>
-                    <h1>{post.title}</h1>
-                    <p>{post.text}</p>
-                </div>
-                <img src={post.image} alt="imagem" />
-            </PostTextSC>
+            <Flex
+                w={isMobile ? '100%' : '40%'}
+                flexDirection="column"
+                justifyContent="space-around"
+                alignItems="center"
+                color="white"
+                textAlign="center"
+                bgColor='#49474749'
+                mt={5}
+            >
+                <Text color='#fff' fontSize={isMobile ? 30 : 50} fontWeight={700} mb={10}>
+                    {post.title}
+                </Text>
+                <Text color='#fff' fontSize={isMobile ? 15 : 25} fontWeight={700} mb={10}>
+                    {post.text}
+                </Text>
+            </Flex>
         )
     }
 }
@@ -53,77 +67,27 @@ const PostTextSC = styled.div`
     height: auto;
     padding: 1vh 0;
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: ${props => props.color.background};
-
-    div {
-        width: 40%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
-
-        h1 {
-            font-size: 0.9em;
-            text-align: center;
-        }
-
-        p {
-            font-size: 0.6em;
-            line-height: 1.2em;
-            text-align: left;
-        }
-    }
-
-    img {
-        height: 33vh;
-    }
-
-    @media (max-width: 1200px) {
-        height: 30vh;
-        img {
-            height: 20vh;
-        }
-
-        div {
-            width: 60%;
-        }
-    }
-`;
-
-const PostButtonSC = styled.div`
-    width: 100%;
-    height: auto;
-    padding: 1vh 0;
-    display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
-    background-color: ${props => props.color.background};
 
     h1 {
-        font-size: 1.2em;
+        font-size: 0.9em;
+        text-align: center;
     }
 
     p {
         font-size: 0.6em;
-        padding-left: 1%;
+        line-height: 1.2em;
+        text-align: left;
     }
 
-    button {
-        width: 30%;
-        height: 7vw; 
-        min-width: 200px;
-        min-height: 60px;
-        background-color: ${props => props.color.button}; 
-        color: #fff;
-        font-size: 0.7em;
-        border-radius: 2em;
-        box-shadow: 0 5px 2px 1px rgba(0, 0, 0, 0.2);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    @media (max-width: 1200px) {
+        height: 30vh;
+
+        h1, p {
+            line-height: 1.2em;
+            text-align: center;
+        }
     }
 `;
