@@ -12,6 +12,7 @@ import { pages } from './routes/routes'
 import ColorContext from './contexts/colors'
 import UserContext from './contexts/user'
 import SignUpPage from './pages/SignUpPage/SignUpPage'
+import SendTest from './pages/SendTestPage/SendTestPage'
 
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
             <Route path={pages.signUp} element={<SignUpPage />} />
             <Route path={pages.news} element={<NewsPage />} />
             <Route path={pages.tests} element={<TestsPage />} />
+            <Route path={pages.sendTest} element={<SendTest />} />
           </Routes>
 
           <Footer />
